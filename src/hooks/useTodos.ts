@@ -1,31 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Todo } from '../types/Todo.ts';
-import { getData } from '../services/localStorageService.ts'
 import { delay } from '../services/utilsService.ts';
+import { getTodos } from '../services/todoService.ts';
 
 const DELAY_AMOUNT = 1000
-export function useFetchTodos(refetch: string) {
+export function useTodos() {
 
     const [todos, setTodos] = useState<Todo[]>([])
+    const [refetchTime, setRefetchTime] = useState<number>(Date.now())
     const [loading, setLoading] = useState<boolean>(false)
-    const [errorMsg, setErrorMsg] = useState<string>('')
 
     const fetchTodos = async () => {
         try {
             setLoading(true)
             await delay(DELAY_AMOUNT) // Imitate waiting for a server request, even though we fetch synchronously todos from local storage
-            const fetchedTodos = getData<Todo[]>('todos')
+            const fetchedTodos = getTodos()
             setTodos(fetchedTodos || [])
             setLoading(false)
         } catch (error) {
+            setLoading(false)
             console.log(error)
-            setErrorMsg('Could not get your todos for some reason..')
         }
     };
 
-    useEffect(() => {
-        fetchTodos(); // Fetch todos whenever the component mounts or refetch param changes
-    }, [refetch])
+    const refetch = () => setRefetchTime(Date.now())
 
-    return { todos, loading, errorMsg }
+    useEffect(() => {
+        fetchTodos(); // Fetch todos whenever the component mounts or refetchTime state changes
+        console.log(todos)
+    }, [refetchTime])
+
+    return { todos, loading, refetch }
 }

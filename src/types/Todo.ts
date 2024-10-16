@@ -5,4 +5,10 @@ export interface Todo {
     priority: Priority
 }
 
-type Priority = 'Low' | 'Medium' | 'High'
+export enum TodoField {
+    Task = 'task',
+    Assignee = 'assignee',
+    Priority = 'priority',
+}
+
+export type Priority = 'Low' | 'Medium' | 'High'
