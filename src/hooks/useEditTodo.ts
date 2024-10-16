@@ -27,7 +27,6 @@ const useEditTodo = (todoEditPayload: TodoEditPayload) => {
     }, [todoId])
 
     const handleChangeTodo = (field: keyof Todo, value: string) => {
-        console.log(field, value)
         if (!todo) return
         setTodo({
             ...todo,

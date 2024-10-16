@@ -6,10 +6,10 @@ import { SelectPriority } from './parts/SelectPriority'
 interface ITodoForm {
   todoId?: string
   refetchTodos: () => void
-  assigneeOptions: string[]
+  getAssigneeOptions: () => string[]
 }
 
-const TodoForm = ({ todoId, refetchTodos, assigneeOptions }: ITodoForm) => {
+const TodoForm = ({ todoId, refetchTodos, getAssigneeOptions }: ITodoForm) => {
   const { todo, handleChangeTodo, handleSaveTodo } = useEditTodo({ todoId })
 
   const handleClick = async () => {
@@ -29,7 +29,7 @@ const TodoForm = ({ todoId, refetchTodos, assigneeOptions }: ITodoForm) => {
         //        disablePortal
         key={todo?.task}
         id="assignee-input"
-        options={assigneeOptions}
+        options={getAssigneeOptions()}
         value={todo?.assignee}
         freeSolo
         onChange={(e, value) => handleChangeTodo(TodoField.Assignee, value || '')}
@@ -40,7 +40,6 @@ const TodoForm = ({ todoId, refetchTodos, assigneeOptions }: ITodoForm) => {
       />
       <SelectPriority
         handleChange={handleChangeTodo}
-        priority={todo?.priority}
       />
       <Button onClick={handleClick}>Save</Button>
     </Box>

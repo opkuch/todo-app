@@ -1,11 +1,15 @@
-import Form from './components/TodoForm/TodoForm'
-import MainLayout from './components/MainLayout/MainLayout'
+import TodoForm from './components/TodoForm/TodoForm'
 import { useTodos } from './hooks/useTodos'
 import TodoTable from './components/TodoTable/TodoTable'
-
+import MainLayout from './generic-ui/MainLayout/MainLayout'
+import { getAssignees } from './services/todoService'
 function App() {
   const { todos, loading, refetch } = useTodos()
-  const assigneeOptions = todos.map(todo => todo.assignee)
+  const getAssigneeOptions = () => {
+    const allAssignees = getAssignees()
+    const options = [...new Set(allAssignees)]
+    return options
+  }
   return (
     <MainLayout
       sx={{
@@ -16,8 +20,8 @@ function App() {
         background: '#f1f1f1',
       }}
     >
-      <Form refetchTodos={refetch} assigneeOptions={assigneeOptions}/>
-      <TodoTable todos={todos} loading={loading} />
+      <TodoForm refetchTodos={refetch} getAssigneeOptions={getAssigneeOptions} />
+      <TodoTable todos={todos} loading={loading} getAssigneeOptions={getAssigneeOptions} />
     </MainLayout>
   )
 }

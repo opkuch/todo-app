@@ -1,31 +1,25 @@
 import { MenuItem, Select } from '@mui/material'
-import { Priority, Todo, TodoField } from '../../../types/Todo'
+import { Todo, TodoField } from '../../../types/Todo'
+import { PRIORITY_OPTIONS } from '../../../constants/priority'
 
 interface SelectPriorityProps {
-  priority?: Priority
   handleChange: (field: keyof Todo, value: string) => void
 }
 
 export const SelectPriority = ({
-  priority,
   handleChange,
-}: SelectPriorityProps) => {
-
-  const PriorityOptions: Record<Priority, string> = {
-    Low: 'Low',
-    Medium: 'Medium',
-    High: 'High',
-  }
+}: SelectPriorityProps) => { 
 
   return (
     <Select
       id="priority-select"
-      value={priority}
-      defaultValue={PriorityOptions.Medium}
+      defaultValue={PRIORITY_OPTIONS.Medium}
       onChange={(e) => handleChange(TodoField.Priority, e.target.value)}
     >
-      {Object.keys(PriorityOptions).map((option) => (
-        <MenuItem key={option} value={option}>{option}</MenuItem>
+      {Object.keys(PRIORITY_OPTIONS).map((option) => (
+        <MenuItem key={option} value={option}>
+          {option}
+        </MenuItem>
       ))}
     </Select>
   )

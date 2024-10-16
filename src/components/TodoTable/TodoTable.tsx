@@ -1,29 +1,53 @@
-import React from 'react'
+import { ColumnDef } from '@tanstack/react-table'
+import { useMemo } from 'react'
 import { Todo } from '../../types/Todo'
-import { LinearLoader } from '../Loader/LinearLoader'
+import Table from '../../generic-ui/Table/Table.tsx'
+import { PRIORITY_FILTERS } from '../../constants/filters.ts'
 
-interface TodoTableProps {
+const TodoTable = ({
+  todos,
+  loading,
+  getAssigneeOptions,
+}: {
   todos: Todo[]
   loading: boolean
-}
-const TodoTable = ({ todos, loading }: TodoTableProps) => {
-  if (loading) {
-    return <LinearLoader />
-  }
-  if (todos.length === 0) {
-    return <div>No todos available</div>
-  }
-  return (
-    <div>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <pre>{JSON.stringify(todo)}</pre>
-          </li>
-        ))}
-      </ul>
-    </div>
+  getAssigneeOptions: () => string[]
+}) => {
+  const assigneeFilterOptions = ['', ...getAssigneeOptions()]
+  const columns = useMemo<ColumnDef<Todo, unknown>[]>(
+    () => [
+      {
+        accessorFn: (row) => row.task,
+        id: 'task',
+        header: 'Task',
+        cell: (info) => info.getValue(),
+        enableColumnFilter: false,
+      },
+      {
+        accessorFn: (row) => row.assignee,
+        id: 'assignee',
+        header: 'Assignee',
+        cell: (info) => info.getValue(),
+        meta: {
+          selectOptions: assigneeFilterOptions,
+        },
+        filterFn: 'equals'
+      },
+      {
+        accessorKey: 'priority',
+        accessorFn: (row) => row.priority,
+        id: 'priority',
+        header: 'Priority',
+        cell: (info) => info.getValue(),
+        meta: {
+          selectOptions: PRIORITY_FILTERS,
+        },
+      },
+    ],
+    [todos?.length, loading]
   )
+
+  return <Table data={todos} loading={loading} columns={columns} />
 }
 
 export default TodoTable

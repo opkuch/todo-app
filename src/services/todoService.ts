@@ -5,7 +5,6 @@ const TODOS_KEY = 'todos-local-data'
 
 function getTodos(): Todo[] {
     const todos = getData<Todo[]>(TODOS_KEY)
-    console.log(todos)
     return todos || []
 }
 
