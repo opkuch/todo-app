@@ -1,21 +1,22 @@
 import { flexRender, HeaderGroup } from '@tanstack/react-table'
 import Filter from './Filter'
+import { Box, TableHead, TableRow, TableCell} from '@mui/material'
 
 const TableHeader = <T,>({
-  getHeaderGroups,
+  headerGroups,
 }: {
-  getHeaderGroups: () => HeaderGroup<T>[]
+  headerGroups: HeaderGroup<T>[]
 }) => {
   return (
-    <thead>
-      {getHeaderGroups().map((headerGroup) => (
-        <tr key={headerGroup.id}>
+    <TableHead>
+      {headerGroups.map((headerGroup) => (
+        <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => {
             return (
-              <th key={header.id} colSpan={header.colSpan}>
+              <TableCell key={header.id} colSpan={header.colSpan}>
                 {header.isPlaceholder ? null : (
                   <>
-                    <div
+                    <Box
                       {...{
                         className: header.column.getCanSort()
                           ? 'cursor-pointer select-none'
@@ -31,18 +32,18 @@ const TableHeader = <T,>({
                         asc: ' 🔼',
                         desc: ' 🔽',
                       }[header.column.getIsSorted() as string] ?? null}
-                    </div>
+                    </Box>
                     {header.column.getCanFilter() ? (
                       <Filter column={header.column} />
                     ) : null}
                   </>
                 )}
-              </th>
+              </TableCell>
             )
           })}
-        </tr>
+        </TableRow>
       ))}
-    </thead>
+    </TableHead>
   )
 }
 

@@ -1,22 +1,43 @@
 import { flexRender, RowModel } from '@tanstack/react-table'
+import {
+  Button,
+  TableBody as MUITableBody,
+  TableCell,
+  TableRow,
+} from '@mui/material'
 
-const TableBody = <T,>({ getRowModel }: { getRowModel: () => RowModel<T> }) => {
+const TableBody = <T,>({
+  getRowModel,
+  handleEditClick,
+}: {
+  getRowModel: () => RowModel<T>
+  handleEditClick: (rowData: T) => void
+}) => {
   return (
-    <tbody>
+    <MUITableBody>
       {getRowModel().rows.map((row) => {
         return (
-          <tr key={row.id}>
+          <TableRow key={row.id}>
             {row.getVisibleCells().map((cell) => {
               return (
-                <td key={cell.id}>
+                <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </TableCell>
               )
             })}
-          </tr>
+
+            <TableCell>
+              <Button onClick={() => handleEditClick(row.original)}>
+                Edit
+              </Button>
+            </TableCell>
+            <TableCell>
+              <Button>Delete</Button>
+            </TableCell>
+          </TableRow>
         )
       })}
-    </tbody>
+    </MUITableBody>
   )
 }
 

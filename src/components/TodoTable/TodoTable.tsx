@@ -6,14 +6,17 @@ import { PRIORITY_FILTERS } from '../../constants/filters.ts'
 
 const TodoTable = ({
   todos,
-  loading,
   getAssigneeOptions,
+  handleEditClick,
 }: {
   todos: Todo[]
-  loading: boolean
   getAssigneeOptions: () => string[]
+  handleEditClick: (todoData: Todo) => void
 }) => {
-  const assigneeFilterOptions = ['', ...getAssigneeOptions()]
+  const assigneeFilterOptions = useMemo(
+    () => ['', ...getAssigneeOptions()],
+    [getAssigneeOptions]
+  )
   const columns = useMemo<ColumnDef<Todo, unknown>[]>(
     () => [
       {
@@ -31,7 +34,7 @@ const TodoTable = ({
         meta: {
           selectOptions: assigneeFilterOptions,
         },
-        filterFn: 'equals'
+        filterFn: 'equals',
       },
       {
         accessorKey: 'priority',
@@ -44,10 +47,14 @@ const TodoTable = ({
         },
       },
     ],
-    [todos?.length, loading]
+    [assigneeFilterOptions]
   )
 
-  return <Table data={todos} loading={loading} columns={columns} />
+  return (
+    <>
+      <Table data={todos} columns={columns} handleEditClick={handleEditClick} />
+    </>
+  )
 }
 
 export default TodoTable

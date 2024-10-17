@@ -8,28 +8,25 @@ function getTodos(): Todo[] {
     return todos || []
 }
 
-function getTodo(todoId: string): Todo | null {
+function getTodo(todoId: string): Todo | undefined {
     const todos = getTodos()
     if (todos) {
-        const todo = todos?.find(todo => todo.id === todoId) || null
+        const todo = todos?.find(todo => todo.id === todoId)
         return todo
     }
-    return null
+    return
 }
 
 function saveTodo(todoData: Todo): void {
     const todos = getTodos()
     if (todoData) {
+        const existedTodo = getTodo(todoData.id)
+        if (existedTodo) {
+            _updateTodo(todoData)
+            return
+        }
         todos?.unshift(todoData)
         setData(TODOS_KEY, todos)
-    }
-}
-
-function updateTodo(updatedTodo: Todo): void{
-    const todos = getTodos()
-    if (updatedTodo) {
-        const updatedTodos = todos?.map(todo => todo.id === updatedTodo.id? {...updatedTodo} : todo)
-        setData(TODOS_KEY, updatedTodos)
     }
 }
 
@@ -41,10 +38,17 @@ function getAssignees(): string[] {
     return []
 }
 
+function _updateTodo(updatedTodo: Todo): void{
+    const todos = getTodos()
+    if (updatedTodo) {
+        const updatedTodos = todos?.map(todo => todo.id === updatedTodo.id? {...updatedTodo} : todo)
+        setData(TODOS_KEY, updatedTodos)
+    }
+}
+
 export {
     getTodos,
     getTodo,
     saveTodo,
-    updateTodo,
     getAssignees
 }

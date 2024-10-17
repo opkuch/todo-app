@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Todo } from '../types/Todo'
-import { getTodo, saveTodo } from '../services/todoService'
+import { saveTodo } from '../services/todoService'
 import { delay, makeId } from '../services/utilsService'
 
-interface TodoEditPayload {
-    todoId?: string
-}
 
-const useEditTodo = (todoEditPayload: TodoEditPayload) => {
+const useEditTodo = () => {
 
-    const { todoId } = todoEditPayload
-    const [todo, setTodo] = useState<Todo | null>(null)
-
-    useEffect(() => {
-        if (todoId) {
-            const nextTodo = getTodo(todoId)
-            setTodo(nextTodo)
-        } else {
-            setTodo({
-                id: makeId(),
-                task: '',
-                assignee: '',
-                priority: 'Medium'
-            })
-        }
-    }, [todoId])
+    const [todo, setTodo] = useState<Todo>({
+        id: makeId(),
+        task: '',
+        assignee: '',
+        priority: 'Medium'
+    })
 
     const handleChangeTodo = (field: keyof Todo, value: string) => {
         if (!todo) return
@@ -37,8 +24,11 @@ const useEditTodo = (todoEditPayload: TodoEditPayload) => {
     const handleSaveTodo = async () => {
         if (!todo) return;
         try {
-            await delay(1000)
-            saveTodo(todo);
+            if (!todo?.assignee || !todo?.priority) {
+                return
+            }
+            await delay(500)
+            saveTodo(todo)
             setTodo({
                 id: makeId(),
                 task: '',
@@ -50,7 +40,7 @@ const useEditTodo = (todoEditPayload: TodoEditPayload) => {
         }
     }
 
-    return { todo, handleChangeTodo, handleSaveTodo }
+    return { todo, setTodo, handleChangeTodo, handleSaveTodo }
 }
 
 

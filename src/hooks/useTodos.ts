@@ -27,7 +27,6 @@ export function useTodos() {
 
     useEffect(() => {
         fetchTodos(); // Fetch todos whenever the component mounts or refetchTime state changes
-        console.log(todos)
     }, [refetchTime])
 
     return { todos, loading, refetch }

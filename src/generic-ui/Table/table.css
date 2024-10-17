@@ -7,33 +7,23 @@ tbody {
     border-bottom: 1px solid lightgray;
 }
 
-th {
+thead {
     border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
-    padding: 2px 4px;
 }
 
-th:last-child {
-    border-right: 0 solid transparent;
+thead tr:hover {
+    background-color: inherit;
 }
 
 tr {
-    border-bottom:  1px solid lightgray;
+    transition: background-color .2s;
 }
 
-td {
-    border-right: 1px solid lightgray;
-    padding: 2px 4px;
+tr:hover {
+    background-color: rgb(230, 237, 240)
 }
 
-td:last-child {
-    border-right: 0 solid transparent;
-}
 
-tfoot {
-    color: gray;
-}
-
-tfoot th {
-    font-weight: normal;
+.cursor-pointer {
+    cursor: pointer;
 }
