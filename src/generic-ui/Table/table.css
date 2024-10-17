@@ -1,15 +1,13 @@
 table {
     border: 1px solid lightgray;
-    border-radius: 5px;
+    font-family: 'Roboto';
 }
 
 tbody {
     border-bottom: 1px solid lightgray;
+    width: 100%;
 }
 
-thead {
-    border-bottom: 1px solid lightgray;
-}
 
 thead tr:hover {
     background-color: inherit;
@@ -17,13 +15,27 @@ thead tr:hover {
 
 tr {
     transition: background-color .2s;
+    height: 10px;
+
 }
+tr td {
+    height: auto !important;
+    /* max-width: 200px; */
+    overflow: auto;
+ }
 
 tr:hover {
     background-color: rgb(230, 237, 240)
 }
 
+tfoot tr:hover {
+    background-color: inherit;
+}
 
-.cursor-pointer {
-    cursor: pointer;
+
+.css-1orzuox-MuiTableCell-root {
+    border-bottom: none !important;
+}
+.css-1xtozoh-MuiTableRow-root {
+    border-bottom: 1px solid lightgray !important;
 }

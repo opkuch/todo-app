@@ -1,26 +1,39 @@
-import { Autocomplete, Box, Button, TextField } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { Todo, TodoField } from '../../types/Todo'
 import { SelectPriority } from './parts/SelectPriority'
 import { FormEvent } from 'react'
+import { Loader } from '../../generic-ui/Loader/Loader'
+import AssigneeInput from './parts/AssigneeInput'
+import TaskInput from './parts/TaskInput'
 
-interface ITodoForm {
+export interface TodoFormProps {
   todo?: Todo
+  isSaving: boolean
   handleChangeTodo: (todoField: TodoField, value: string) => void
   handleSaveTodo: () => void
   refetchTodos: () => void
-  getAssigneeOptions: () => string[]
 }
 
-const TodoForm = ({ todo, handleChangeTodo, handleSaveTodo, refetchTodos, getAssigneeOptions }: ITodoForm) => {
+export interface FormPartProps {
+  todo?: Todo
+  handleChangeTodo: (todoField: TodoField, value: string) => void
+}
 
-  const handleClick = (e: FormEvent<HTMLFormElement>) => {
+const TodoForm = ({
+  todo,
+  isSaving,
+  handleChangeTodo,
+  handleSaveTodo,
+  refetchTodos,
+}: TodoFormProps) => {
+  const handleClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     handleSaveTodo()
     refetchTodos()
   }
   return (
     <form onSubmit={handleClick}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '22vw' }}>
         <Box
           sx={{
             display: 'flex',
@@ -32,49 +45,34 @@ const TodoForm = ({ todo, handleChangeTodo, handleSaveTodo, refetchTodos, getAss
               maxWidth: 400,
             }}
           >
-            <Autocomplete
-              id="assignee-input"
-              options={getAssigneeOptions()}
-              value={todo?.assignee || ''}
-              freeSolo
-              onChange={(e, value) =>
-                handleChangeTodo(TodoField.Assignee, value || '')
-              }
-              onInputChange={(e, value) =>
-                handleChangeTodo(TodoField.Assignee, value || '')
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  value={todo?.assignee}
-                  helperText="Add the task assignee"
-                  placeholder="Assignee"
-                />
-              )}
-            />
-            <TextField
-              id="task-input"
-              className="task-input"
-              defaultValue={''}
-              value={todo?.task || ''}
-              onChange={(e) => handleChangeTodo(TodoField.Task, e.target.value)}
-              margin="normal"
-              multiline
-              rows={4}
-              sx={{
-                width: '100%',
-              }}
-              placeholder="Write task here.."
-              helperText="Write a description of your task here"
-            />
+            <AssigneeInput todo={todo} handleChangeTodo={handleChangeTodo} />
+            <TaskInput todo={todo} handleChangeTodo={handleChangeTodo} />
           </Box>
-          <SelectPriority handleChange={handleChangeTodo} />
+          <SelectPriority todo={todo} handleChangeTodo={handleChangeTodo} />
         </Box>
         <Button
           type="submit"
-          disabled={!todo?.assignee || !todo?.priority || !todo?.task}
+          disabled={
+            isSaving || !todo?.assignee || !todo?.priority || !todo?.task
+          }
+          sx={{
+            alignSelf: 'start',
+            justifyContent: 'start',
+          }}
         >
-          Save
+          {isSaving ? (
+            <Box
+              sx={{
+                display: 'flex',
+                alignContent: 'center',
+                gap: '.3rem',
+              }}
+            >
+              Send <Loader />
+            </Box>
+          ) : (
+            'Send'
+          )}
         </Button>
       </Box>
     </form>

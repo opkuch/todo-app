@@ -19,8 +19,8 @@ const TableHeader = <T,>({
                     <Box
                       {...{
                         className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
+                          ? 'cursor-pointer select-none bold text-2'
+                          : 'bold text-2',
                         onClick: header.column.getToggleSortingHandler(),
                       }}
                     >
@@ -29,8 +29,8 @@ const TableHeader = <T,>({
                         header.getContext()
                       )}
                       {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
+                        asc: '🔼',
+                        desc: '🔽',
                       }[header.column.getIsSorted() as string] ?? null}
                     </Box>
                     {header.column.getCanFilter() ? (

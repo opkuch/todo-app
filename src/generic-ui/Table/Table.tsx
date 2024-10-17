@@ -12,14 +12,17 @@ import { Table as MUITable } from '@mui/material'
 import TableHeader from './parts/TableHeader'
 import TableBody from './parts/TableBody'
 import './table.css'
+import TablePagination from './parts/TablePagination'
 
 export interface TableProps<T> {
   data: T[]
-  columns: ColumnDef<T, unknown>[],
-  handleEditClick: (rowData: T) => void,
+  columns: ColumnDef<T, unknown>[]
+  handleEditClick: (rowData: T) => void
+  handleDeleteClick: (rowData: T) => void
+  size?: 'small' | 'medium'
 }
 
-const Table = <T,>({ data, columns, handleEditClick }: TableProps<T>) => {
+const Table = <T,>({ data, columns, size = 'medium', handleEditClick, handleDeleteClick }: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const table = useReactTable({
     data,
@@ -36,9 +39,14 @@ const Table = <T,>({ data, columns, handleEditClick }: TableProps<T>) => {
   })
 
   return (
-    <MUITable>
+    <MUITable size={size}>
       <TableHeader headerGroups={table.getHeaderGroups()} />
-      <TableBody getRowModel={table.getRowModel} handleEditClick={handleEditClick}/>
+      <TableBody
+        getRowModel={table.getRowModel}
+        handleEditClick={handleEditClick}
+        handleDeleteClick={handleDeleteClick}
+      />
+      <TablePagination table={table} />
     </MUITable>
   )
 }

@@ -1,5 +1,6 @@
 import { Todo } from "../types/Todo"
 import { getData, setData } from "./localStorageService.ts"
+import { makeId } from "./utilsService.ts"
 
 const TODOS_KEY = 'todos-local-data'
 
@@ -8,7 +9,7 @@ function getTodos(): Todo[] {
     return todos || []
 }
 
-function getTodo(todoId: string): Todo | undefined {
+function getTodo(todoId?: string): Todo | undefined {
     const todos = getTodos()
     if (todos) {
         const todo = todos?.find(todo => todo.id === todoId)
@@ -30,6 +31,16 @@ function saveTodo(todoData: Todo): void {
     }
 }
 
+function removeTodo(todoId: string): void {
+    if (!todoId) return
+    const todos = getTodos()
+    const idx = todos.findIndex(todo => todo?.id === todoId)
+    if (idx > -1) {
+        todos.splice(idx, 1)
+        setData(TODOS_KEY, todos)
+    }
+}
+
 function getAssignees(): string[] {
     const todos = getTodos()
     if (todos) {
@@ -38,10 +49,25 @@ function getAssignees(): string[] {
     return []
 }
 
-function _updateTodo(updatedTodo: Todo): void{
+function getAssigneeOptions() {
+    const allAssignees = getAssignees()
+    const options = [...new Set(allAssignees)]
+    return options
+}
+
+function generateNewTodo(): Todo {
+    return {
+        id: makeId(),
+        task: '',
+        assignee: '',
+        priority: 'Medium',
+      }
+}
+
+function _updateTodo(updatedTodo: Todo): void {
     const todos = getTodos()
     if (updatedTodo) {
-        const updatedTodos = todos?.map(todo => todo.id === updatedTodo.id? {...updatedTodo} : todo)
+        const updatedTodos = todos?.map(todo => todo.id === updatedTodo.id ? { ...updatedTodo } : todo)
         setData(TODOS_KEY, updatedTodos)
     }
 }
@@ -50,5 +76,8 @@ export {
     getTodos,
     getTodo,
     saveTodo,
-    getAssignees
+    removeTodo,
+    getAssignees,
+    getAssigneeOptions,
+    generateNewTodo
 }

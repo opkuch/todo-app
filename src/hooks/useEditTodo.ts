@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Todo } from '../types/Todo'
 import { saveTodo } from '../services/todoService'
-import { delay, makeId } from '../services/utilsService'
-
+import { makeId } from '../services/utilsService'
 
 const useEditTodo = () => {
 
@@ -12,7 +11,8 @@ const useEditTodo = () => {
         assignee: '',
         priority: 'Medium'
     })
-
+    const [isEditing, setIsEditing] = useState(false)
+    const [isSaving, setIsSaving] = useState(false)
     const handleChangeTodo = (field: keyof Todo, value: string) => {
         if (!todo) return
         setTodo({
@@ -27,7 +27,7 @@ const useEditTodo = () => {
             if (!todo?.assignee || !todo?.priority) {
                 return
             }
-            await delay(500)
+            setIsSaving(true)
             saveTodo(todo)
             setTodo({
                 id: makeId(),
@@ -35,12 +35,14 @@ const useEditTodo = () => {
                 assignee: '',
                 priority: 'Medium'
             })
+            setIsSaving(false)
+            setIsEditing(false)
         } catch (err) {
             console.error(err)
         }
     }
 
-    return { todo, setTodo, handleChangeTodo, handleSaveTodo }
+    return { todo, setTodo, isEditing, isSaving, setIsEditing, handleChangeTodo, handleSaveTodo }
 }
 
 

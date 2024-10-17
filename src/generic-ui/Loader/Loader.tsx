@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 export function Loader({ sx }: {sx?: SxProps}) {
   return (
     <Box sx={{ ...sx, width: '100%' }}>
-      <CircularProgress />
+      <CircularProgress size={20}/>
     </Box>
   )
 }
