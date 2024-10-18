@@ -1,10 +1,16 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, SortingFn } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { Todo, TodoField } from '../types/Todo'
 import { PRIORITY_FILTERS } from '../constants/filters'
 import { getAssigneeOptions } from '../services/todoService'
 
 const useTodoColumns = ({ todos }: { todos: Todo[] }) => {
+    const priorityCustomSortFn: SortingFn<Todo> = (rowA, rowB, _columnId) => {
+        const priorityA = rowA.original.priority
+        const priorityB = rowB.original.priority
+        const priorityOrder = ['Low', 'Medium', 'High']
+        return priorityOrder.indexOf(priorityA) - priorityOrder.indexOf(priorityB)
+    }
     const columns = useMemo<ColumnDef<Todo>[]>(
         () => {
             const assigneeFilterOptions = ['', ...getAssigneeOptions()]
@@ -36,6 +42,8 @@ const useTodoColumns = ({ todos }: { todos: Todo[] }) => {
                     meta: {
                         selectOptions: PRIORITY_FILTERS,
                     },
+                    sortingFn: priorityCustomSortFn,
+
                 }
             ]
         },
