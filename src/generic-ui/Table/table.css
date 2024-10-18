@@ -20,7 +20,6 @@ tr {
 }
 tr td {
     height: auto !important;
-    /* max-width: 200px; */
     overflow: auto;
  }
 
@@ -32,10 +31,13 @@ tfoot tr:hover {
     background-color: inherit;
 }
 
+.empty-row:hover {
+    background-color: inherit;
+}
 
 .css-1orzuox-MuiTableCell-root {
     border-bottom: none !important;
 }
 .css-1xtozoh-MuiTableRow-root {
-    border-bottom: 1px solid lightgray !important;
+    border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
 }

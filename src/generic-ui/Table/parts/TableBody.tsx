@@ -21,16 +21,22 @@ const TableBody = <T,>({
 
   return (
     <MUITableBody>
-      {rowModel.rows.map((row) => {
-        return (
-          <TableRow
-            key={row.id}
-            row={row}
-            handleEditClick={handleEditClick}
-            handleDeleteClick={handleDeleteClick}
-          />
-        )
-      })}
+      {rowModel.rows.length ? (
+        rowModel.rows.map((row) => {
+          return (
+            <TableRow
+              key={row.id}
+              row={row}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          )
+        })
+      ) : (
+        <MUITableRow className='empty-row'>
+          <TableCell>No Items yet..</TableCell>
+        </MUITableRow>
+      )}
     </MUITableBody>
   )
 }
@@ -63,12 +69,21 @@ const TableRow = <T,>({
 
       <TableCell>
         {handleEditClick && (
-          <Button color="secondary" onClick={() => handleEditClick(row.original)}>Edit</Button>
+          <Button
+            color="secondary"
+            onClick={() => handleEditClick(row.original)}
+          >
+            Edit
+          </Button>
         )}
       </TableCell>
       <TableCell>
         {handleDeleteClick && (
-          <Button color="error" variant='contained' onClick={() => handleDeleteClick(row.original)}>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => handleDeleteClick(row.original)}
+          >
             Delete
           </Button>
         )}
@@ -78,4 +93,3 @@ const TableRow = <T,>({
 }
 
 export default TableBody
-
