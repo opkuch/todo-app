@@ -3,7 +3,6 @@ import { Todo } from '../types/Todo.ts';
 import { getTodos } from '../services/todoService.ts';
 
 export function useTodos() {
-
     const [todos, setTodos] = useState<Todo[]>([])
     const [refetchTime, setRefetchTime] = useState<number>(Date.now())
     const [loading, setLoading] = useState<boolean>(false)
@@ -21,7 +20,6 @@ export function useTodos() {
     };
 
     const refetch = () => setRefetchTime(Date.now())
-
     useEffect(() => {
         fetchTodos(); // Fetch todos whenever the component mounts or refetchTime state changes
     }, [refetchTime])

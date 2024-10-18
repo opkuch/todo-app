@@ -42,16 +42,9 @@ const TodoPage = () => {
     }
   }
   return (
-    <MainLayout
-      sx={todoPageStyles.mainLayout}
-      className="main-layout"
-    >
+    <MainLayout sx={todoPageStyles.mainLayout}>
       <TodoHeader />
-      <Box
-        component="section"
-        className="todo-section"
-        sx={todoPageStyles.row}
-      >
+      <Box component="section" className="todo-section" sx={todoPageStyles.row}>
         <TodoCreationForm
           refetchTodos={refetch}
           todo={todo}
@@ -65,7 +58,7 @@ const TodoPage = () => {
           handleEditClick={handleEditClick}
           handleDeleteClick={handleDeleteClick}
         />
-        {<TodoEditorDrawer
+        <TodoEditorDrawer
           refetchTodos={refetch}
           todo={todo}
           handleChangeTodo={handleChangeTodo}
@@ -73,7 +66,7 @@ const TodoPage = () => {
           isEditing={isEditing}
           isSaving={isSaving}
           toggleDrawer={toggleDrawer}
-        />}
+        />
       </Box>
     </MainLayout>
   )
@@ -82,15 +75,15 @@ const TodoPage = () => {
 export default TodoPage
 
 const todoPageStyles = {
-    mainLayout: {
-        width: '100%',
-        padding: '1rem',
-        background: '#fefefe',
-      },
-    row: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        paddingBlock: '1rem',
-        gap: '1rem'
-      }
+  mainLayout: {
+    width: '100%',
+    padding: '1rem',
+    background: '#fefefe',
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingBlock: '1rem',
+    gap: '1rem',
+  },
 }

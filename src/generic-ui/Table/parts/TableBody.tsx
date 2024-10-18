@@ -63,12 +63,12 @@ const TableRow = <T,>({
 
       <TableCell>
         {handleEditClick && (
-          <Button onClick={() => handleEditClick(row.original)}>Edit</Button>
+          <Button color="secondary" onClick={() => handleEditClick(row.original)}>Edit</Button>
         )}
       </TableCell>
       <TableCell>
         {handleDeleteClick && (
-          <Button onClick={() => handleDeleteClick(row.original)}>
+          <Button color="error" variant='contained' onClick={() => handleDeleteClick(row.original)}>
             Delete
           </Button>
         )}
@@ -78,3 +78,4 @@ const TableRow = <T,>({
 }
 
 export default TableBody
+

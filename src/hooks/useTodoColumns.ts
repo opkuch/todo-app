@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
-import { Todo } from '../types/Todo'
+import { Todo, TodoField } from '../types/Todo'
 import { PRIORITY_FILTERS } from '../constants/filters'
 import { getAssigneeOptions } from '../services/todoService'
 
@@ -12,14 +12,14 @@ const useTodoColumns = ({ todos }: { todos: Todo[] }) => {
             return [
                 {
                     accessorFn: (row) => row.task,
-                    id: 'task',
+                    id: TodoField.Task,
                     header: 'Task',
                     cell: (info) => info.getValue(),
                     enableColumnFilter: false,
                 },
                 {
                     accessorFn: (row) => row.assignee,
-                    id: 'assignee',
+                    id: TodoField.Assignee,
                     header: 'Assignee',
                     cell: (info) => info.getValue(),
                     meta: {
@@ -29,14 +29,12 @@ const useTodoColumns = ({ todos }: { todos: Todo[] }) => {
                     filterFn: 'equals',
                 },
                 {
-                    accessorKey: 'priority',
                     accessorFn: (row) => row.priority,
-                    id: 'priority',
+                    id: TodoField.Priority,
                     header: 'Priority',
                     cell: (info) => info.getValue(),
                     meta: {
                         selectOptions: PRIORITY_FILTERS,
-                        variant: "chip"
                     },
                 }
             ]

@@ -33,18 +33,9 @@ const TodoForm = ({
   }
   return (
     <form onSubmit={handleClick}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '22vw' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '1rem',
-          }}
-        >
-          <Box
-            sx={{
-              maxWidth: 400,
-            }}
-          >
+      <Box sx={formStyles.formWrapper}>
+        <Box sx={formStyles.fieldsWrapper}>
+          <Box sx={{maxWidth: 400}}>
             <AssigneeInput todo={todo} handleChangeTodo={handleChangeTodo} />
             <TaskInput todo={todo} handleChangeTodo={handleChangeTodo} />
           </Box>
@@ -52,22 +43,14 @@ const TodoForm = ({
         </Box>
         <Button
           type="submit"
+          variant="contained"
           disabled={
             isSaving || !todo?.assignee || !todo?.priority || !todo?.task
           }
-          sx={{
-            alignSelf: 'start',
-            justifyContent: 'start',
-          }}
+          sx={formStyles.button}
         >
           {isSaving ? (
-            <Box
-              sx={{
-                display: 'flex',
-                alignContent: 'center',
-                gap: '.3rem',
-              }}
-            >
+            <Box sx={formStyles.loader}>
               Send <Loader />
             </Box>
           ) : (
@@ -80,3 +63,21 @@ const TodoForm = ({
 }
 
 export default TodoForm
+
+const formStyles = {
+  formWrapper: { display: 'flex', flexDirection: 'column', minWidth: '22vw' },
+  fieldsWrapper: {
+    display: 'flex',
+    gap: '1rem',
+    maxWidth: 400,
+  },
+  button: {
+    alignSelf: 'start',
+    justifyContent: 'start',
+  },
+  loader: {
+    display: 'flex',
+    alignContent: 'center',
+    gap: '.3rem',
+  },
+}
