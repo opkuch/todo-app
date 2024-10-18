@@ -1,11 +1,4 @@
-table {
-    font-family: 'Roboto';
-}
 
-tbody {
-    border-bottom: 1px solid lightgray;
-    width: 100%;
-}
 
 
 thead tr:hover {
@@ -15,12 +8,7 @@ thead tr:hover {
 tr {
     transition: background-color .2s;
     height: 10px;
-
 }
-tr td {
-    height: auto !important;
-    overflow: auto;
- }
 
 tr:hover {
     background-color: rgb(230, 237, 240)

@@ -22,7 +22,13 @@ export interface TableProps<T> {
   size?: 'small' | 'medium'
 }
 
-const Table = <T,>({ data, columns, size = 'medium', handleEditClick, handleDeleteClick }: TableProps<T>) => {
+const Table = <T,>({
+  data,
+  columns,
+  size = 'medium',
+  handleEditClick,
+  handleDeleteClick,
+}: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const table = useReactTable({
     data,
@@ -39,7 +45,13 @@ const Table = <T,>({ data, columns, size = 'medium', handleEditClick, handleDele
   })
 
   return (
-    <MUITable size={size}>
+    <MUITable
+      size={size}
+      sx={{
+        border: '1px solid rgba(224, 224, 224, 1)',
+        borderRadius: '6px',
+      }}
+    >
       <TableHeader headerGroups={table.getHeaderGroups()} />
       <TableBody
         getRowModel={table.getRowModel}
